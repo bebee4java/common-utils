@@ -1,4 +1,4 @@
-package dt.sqlclub.common.log
+package tech.sqlclub.common.log
 
 trait Logging {
   @transient private var log_ : Logger = null

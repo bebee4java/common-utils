@@ -1,4 +1,4 @@
-package dt.sqlclub.test
+package tech.sqlclub.test
 
 import java.util
 import java.util.Properties

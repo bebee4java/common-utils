@@ -1,4 +1,4 @@
-package dt.sqlclub.common.exception
+package tech.sqlclub.common.exception
 
 /**
   *

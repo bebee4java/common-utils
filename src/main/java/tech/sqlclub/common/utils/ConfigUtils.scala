@@ -1,8 +1,9 @@
-package dt.sqlclub.common.utils
+package tech.sqlclub.common.utils
 
 import com.typesafe.config.{Config, ConfigFactory}
-import dt.sqlclub.common.exception.SQLClubException
-import dt.sqlclub.common.log.Logging
+import tech.sqlclub.common.exception.SQLClubException
+import tech.sqlclub.common.log.Logging
+
 import scala.collection.JavaConversions._
 
 /**

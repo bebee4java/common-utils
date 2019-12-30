@@ -1,4 +1,4 @@
-package dt.sqlclub.common.log;
+package tech.sqlclub.common.log;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;

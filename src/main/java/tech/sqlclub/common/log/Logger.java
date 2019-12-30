@@ -1,4 +1,4 @@
-package dt.sqlclub.common.log;
+package tech.sqlclub.common.log;
 
 import java.io.Serializable;
 

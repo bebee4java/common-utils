@@ -1,4 +1,4 @@
-package dt.sqlclub.common.utils
+package tech.sqlclub.common.utils
 
 import scala.util.control.NonFatal
 import com.fasterxml.jackson.databind.ObjectMapper

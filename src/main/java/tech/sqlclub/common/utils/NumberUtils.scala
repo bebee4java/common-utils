@@ -1,4 +1,4 @@
-package dt.sqlclub.common.utils
+package tech.sqlclub.common.utils
 
 object NumberUtils {
 
