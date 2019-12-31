@@ -137,7 +137,7 @@
                     <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
                 </snapshotRepository>
                 <repository>
-                    <id>sonatype-nexus-snapshots</id>
+                    <id>sonatype-nexus-staging</id>
                     <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
                 </repository>
             </distributionManagement>
@@ -250,7 +250,7 @@
                 <version>1.6.7</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <serverId>sonatype-nexus-snapshots</serverId>
+                    <serverId>sonatype-nexus-staging</serverId>
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
