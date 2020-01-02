@@ -1,10 +1,11 @@
 package tech.sqlclub.test
 
 import java.util
-import java.util.Properties
+import java.util.{Date, Properties}
 
 import com.typesafe.config.ConfigFactory
 import org.scalatest.FunSuite
+import tech.sqlclub.common.utils.TimeUtils
 
 class CommonSuite extends FunSuite {
 
@@ -44,6 +45,17 @@ class CommonSuite extends FunSuite {
 
 
     assert(conf.getInt("redis.database") == 4)
+
+  }
+
+
+  test("time util") {
+    println(TimeUtils.currentLocaltime)
+    println(TimeUtils.dateFormat(new Date(), "yyyy-MM-dd HH/mm/ss"))
+
+    println(TimeUtils.currentLocalDate)
+    println(TimeUtils.currentTimestamp)
+    println(TimeUtils.dateDiff("2020-01-02 12:00:00", "2020-01-02 13:00:00"))
 
   }
 
