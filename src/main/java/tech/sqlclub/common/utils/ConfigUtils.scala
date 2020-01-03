@@ -13,8 +13,8 @@ object ConfigUtils extends Logging {
   var config:Config = _
   try {
     val url = this.getClass.getClassLoader.getResource("application.conf")
-    logInfo("ConfigUtils load file: " + url.getFile)
     if (url != null) {
+      logInfo("ConfigUtils load file: " + url.getFile)
       // 默认读取resources目录下的application.conf文件
       config = ConfigFactory.parseURL(url)
     } else {

@@ -51,7 +51,7 @@ class CommonSuite extends FunSuite {
 
   test("time util") {
     println(TimeUtils.currentLocaltime)
-    println(TimeUtils.dateFormat(new Date(), "yyyy-MM-dd HH/mm/ss"))
+    println(TimeUtils.dateFormat(new Date()))
 
     println(TimeUtils.currentLocalDate)
     println(TimeUtils.currentTimestamp)

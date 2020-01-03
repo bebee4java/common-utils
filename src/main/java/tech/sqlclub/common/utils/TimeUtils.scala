@@ -27,7 +27,7 @@ object TimeUtils {
     duration.getStandardSeconds
   }
 
-  def dateFormat(date:Date, format:String)
+  def dateFormat(date:Date, format:String="yyyy-MM-dd HH:mm:ss")
     (implicit f: DateTimeFormatter = DateTimeFormat.forPattern(format)):String =
     new DateTime(date.getTime, localTimeZone).toString(f)
 
