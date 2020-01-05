@@ -1,0 +1,16 @@
+test: test
+a:
+  test: 1
+
+quartz-job:
+  - name: JobA
+    class: tech.sqlclub.job.A
+    cron: 0/15 * * * * ?
+
+  - name: JobB
+    class: tech.sqlclub.job.B
+    cron: 0/10 * * * * ?
+
+  - name: JobC
+    class: tech.sqlclub.job.C
+    cron: 1 0/5 * * * ?

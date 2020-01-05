@@ -5,7 +5,9 @@ import java.util.{Date, Properties}
 
 import com.typesafe.config.ConfigFactory
 import org.scalatest.FunSuite
-import tech.sqlclub.common.utils.TimeUtils
+import tech.sqlclub.common.context.YamlContext
+import tech.sqlclub.common.net.NetUtils
+import tech.sqlclub.common.utils.{FileUtils, ParamMapUtils, TimeUtils}
 
 class CommonSuite extends FunSuite {
 
@@ -57,6 +59,75 @@ class CommonSuite extends FunSuite {
     println(TimeUtils.currentTimestamp)
     println(TimeUtils.dateDiff("2020-01-02 12:00:00", "2020-01-02 13:00:00"))
 
+  }
+
+  test("regex") {
+    import tech.sqlclub.common.regex.RegexOp._
+
+    println("aaasdds" matching ".+" )
+
+    println("aaa" matching "a.*") //true
+
+    println("aaa" matching "b.*") //false
+
+    println("a123".matchGroup("(a)(\\d+)", 1).toList ) //List(a)
+
+    println("a123".matchGroup("(a)(\\d+)", 2).toList ) //List(123)
+
+    println("a1a1a" matchAll "a") //List(a, a, a)
+
+    println("a1a1a" matchFirst  "a") //Some(a)
+
+    println("13811111111" isMobileNumber ) //true
+
+    println(
+      """
+        |13811111111
+        |电话:
+        |18222222222
+      """.stripMargin extractMobileNumber ) //List(13811111111, 18222222222)
+
+    println("-1.0" isMumeric) //true
+    println(
+      """
+        |这是一段文本
+        |-1 and -3.0
+        |大于 100 +1000
+      """.stripMargin extractMumeric) // List(-1, -3.0, 100, +1000)
+
+  }
+
+  test("file utils") {
+    FileUtils.mkdirs("/tmp/sgr/test")
+
+    println(FileUtils.lsfile("/tmp/sgr").mkString("\n"))
+    println("----------------")
+    println(FileUtils.lsfile("/tmp/sgr",recursive = true).mkString("\n"))
+
+    println("----------------")
+    println(FileUtils.lsfile("/tmp/sgr",pattern=".*.sh",recursive = true).mkString("\n"))
+
+  }
+
+  test("yaml context") {
+//    YamlContext.paramMap.foreach(kv => println(kv._1, kv._2))
+  }
+
+
+  test("ParamMapUtils"){
+    val s = ParamMapUtils().getStringValue("test", paramMap = Map("test"-> "aa") )
+    println(s)
+
+    val map = Map[String,Object]("test"->"bb")
+    val ss = new ParamMapUtils(map).getStringValue("test" )
+    println(ss)
+
+  }
+
+  test("net utils") {
+    println(NetUtils.getLocalServerIp)
+    println(NetUtils.getLocalServerIpv4List)
+    println(NetUtils.portAvailableAndReturn("127.0.0.1", 2000, 9999))
   }
 
 }

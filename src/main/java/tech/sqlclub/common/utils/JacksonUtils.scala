@@ -4,7 +4,7 @@ import scala.util.control.NonFatal
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 
-object JacksonUtil {
+object JacksonUtils {
   private val _mapper = new ObjectMapper()
   _mapper.registerModule(DefaultScalaModule)
 
