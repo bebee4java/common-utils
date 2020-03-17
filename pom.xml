@@ -6,7 +6,7 @@
 
     <groupId>tech.sqlclub</groupId>
     <artifactId>common-utils</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <name>common utils</name>
     <url>https://github.com/bebee4java/common-utils</url>

@@ -33,32 +33,43 @@ object NetUtils {
 
   def portAvailableAndReturn(hostname: String, port_min_number: Int, port_max_number: Int):Int = {
     var bindSuccess: Boolean = false
-    var ss: Socket = null
-    var ss1: Socket = null
     val start: AtomicInteger = new AtomicInteger(port_min_number)
 
     while (!bindSuccess && start.get() <= port_max_number) {
-      try {
-        ss = new Socket()
-        ss.bind(new InetSocketAddress(hostname, start.get()))
-        ss.close()
-        if (hostname != "0.0.0.0") {
-          ss1 = new Socket()
-          ss1.bind(new InetSocketAddress("0.0.0.0", start.get()))
-          ss1.close()
-        }
-        bindSuccess = true
-      } catch {
-        case e:IOException =>
-          bindSuccess = false
-          start.set(start.get() + 1)
-      } finally {
-        socketClose(ss)
-        socketClose(ss1)
+      bindSuccess = portAvailable(hostname, start.get())
+      if (!bindSuccess){
+        start.set(start.get() + 1)
       }
     }
     if (bindSuccess) start.get() else -1
   }
+
+
+  def portAvailable(hostName:String, port:Int)= {
+    var ss: Socket = null
+    var ss1: Socket = null
+    var bindSuccess = false
+    try {
+      ss = new Socket()
+      ss.bind(new InetSocketAddress(hostName, port))
+      ss.close()
+      if (hostName != "0.0.0.0") {
+        ss1 = new Socket()
+        ss1.bind(new InetSocketAddress("0.0.0.0", port))
+        ss1.close()
+      }
+      bindSuccess = true
+    } catch {
+      case e:IOException =>
+
+    } finally {
+      socketClose(ss)
+      socketClose(ss1)
+    }
+
+    bindSuccess
+  }
+
 
   def socketClose(s:Socket)= {
     if (s != null && !s.isClosed){

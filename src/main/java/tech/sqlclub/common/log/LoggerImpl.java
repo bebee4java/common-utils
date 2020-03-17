@@ -27,7 +27,9 @@ public class LoggerImpl extends Logger {
                     System.out.println("Using Spark's default log4j profile: " + defaultLogProps);
                 } else {
                     url = LoggerImpl.class.getResource("log4j.properties");
-                    PropertyConfigurator.configure(url);
+                    if (url != null) {
+                        PropertyConfigurator.configure(url);
+                    }
                 }
             }
         }

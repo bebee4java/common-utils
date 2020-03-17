@@ -12,7 +12,7 @@ class ParamsUtils {
     this()
     // (arg, index)
     val argsWithIndex = args.zip(range(0, args.length))
-    argsWithIndex.filter(tuple => tuple._1.startsWith("-")).foreach{
+    argsWithIndex.filter(tuple => tuple._1.startsWith("-") && tuple._2 %2 == 0).foreach{
     tuple =>
       params.put(tuple._1.substring(1), args(tuple._2 + 1))
     }
