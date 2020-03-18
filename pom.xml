@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>tech.sqlclub</groupId>
-    <artifactId>common-utils</artifactId>
+    <artifactId>common-utils_${scala.compat.version}</artifactId>
     <version>1.0.2</version>
 
     <name>common utils</name>
