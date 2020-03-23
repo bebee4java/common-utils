@@ -127,7 +127,12 @@ object ConfigUtils extends Logging {
     conf.map {
       case (key, value) =>
         val keyStr = key + (" " * (keyLength - key.size))
-        val valueStr = value + (" " * (valueLength - value.size))
+        val valueStr = if (key.toLowerCase.contains("password") || key.toLowerCase.contains("auth")) {
+          "******" + (" " * (valueLength - 6))
+        } else {
+          value + (" " * (valueLength - value.size))
+        }
+
         s"|${keyStr}|${valueStr}|"
     }.foreach(line => {
       logInfo(line)

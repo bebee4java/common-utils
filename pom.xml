@@ -6,7 +6,7 @@
 
     <groupId>tech.sqlclub</groupId>
     <artifactId>common-utils_${scala.compat.version}</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 
     <name>common utils</name>
     <url>https://github.com/bebee4java/common-utils</url>
