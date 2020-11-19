@@ -31,7 +31,8 @@ object SocketServerTest {
   val client2 = new SocketClient(socketServer.getHost, socketServer.getPort)
 
   while (true) {
-   client.sendData(List(Data("i'm fine!"), Data("i'm ok")))
+//   client.sendData(List(Data("i'm fine!"), Data("i'm ok")))
+   client.sendData(List())
    println("send1------")
 
    //      client2.sendData(Data("i'm fine! 222"))
