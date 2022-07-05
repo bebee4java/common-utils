@@ -54,6 +54,9 @@ class ReflectSuite extends FunSuite {
     println(classpath.packageName)
 
     val reflection = Reflection(classpath)
+
+    val value = reflection.instance[Object]
+
     reflection.callMethodByName("B1")
     reflection.invoke("B2", classOf[String])("xxx")
     reflection.invoke("B2", classOf[String], classOf[Integer])("xxx", 1)
@@ -109,10 +112,12 @@ class ReflectSuite extends FunSuite {
 //    println(reflection.getOrSetFieldByName("s"))
   }
 
+  case class AAAA(a:String, b:Int)
+
   test("Field test2"){
-    val classpath = ClassPath.fromInstance(new ClassA())
+    val classpath = ClassPath.fromInstance( new ClassA() )
     val reflection = Reflection(classpath)
-    val f = reflection.getOrSetFieldByName("s")
+    val f = reflection.getOrSetFieldByName("ss")
     println(f)
     reflection.getOrSetFieldByName("s", Option("xxxx"))
     println(reflection.getOrSetFieldByName("s"))
@@ -123,7 +128,14 @@ class ReflectSuite extends FunSuite {
 //    println(reflection.getOrSetFieldByName("ss"))
   }
 
+  test("getFieldNames") {
+//    val classpath = ClassPath.from("tech.sqlclub.test.ClassA")
+//    val classpath = ClassPath.fromInstance(new ClassA())
+    val classpath = ClassPath.fromInstance(AAAA("ss", 1))
+    val reflection = Reflection(classpath)
+    println(reflection.getFieldNames.mkString(","))
 
+  }
 
   test("Reflection Test"){
     println(Reflection.allClassWithAnnotation(classOf[Explanation]))
@@ -139,6 +151,22 @@ class ReflectSuite extends FunSuite {
     reflection.createInstance[ClassA](classOf[String])("sss")
   }
 
+  test("object instance") {
+
+    val c1 = ClassPath.from("tech.sqlclub.test.X1")
+    val c2 = ClassPath.from("tech.sqlclub.test.X2")
+
+    val o1 = Reflection(c1).instance[X2]
+
+    val o2 = Reflection(c2).instance[X2]
+
+    println(o1)
+    println(o2)
+  }
 
 }
+
+object X1 extends X2
+
+class X2
 

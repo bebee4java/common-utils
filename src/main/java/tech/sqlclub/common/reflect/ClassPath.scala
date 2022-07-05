@@ -10,7 +10,8 @@ import scala.reflect.ClassTag
   */
 class ClassPath[T: ClassTag](val clazz: Class[T], val instance:Option[T]) {
 
-  lazy val classLoader: ClassLoader = clazz.getClassLoader
+  lazy val classLoader: ClassLoader =
+    if(instance.isDefined) instance.get.getClass.getClassLoader else clazz.getClassLoader
 
   def fullClassName = clazz.getName
 

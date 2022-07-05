@@ -2,12 +2,12 @@ package tech.sqlclub.test
 
 import java.util
 import java.util.{Date, Properties}
-
 import com.typesafe.config.ConfigFactory
 import org.scalatest.FunSuite
 import tech.sqlclub.common.context.YamlContext
 import tech.sqlclub.common.net.NetUtils
-import tech.sqlclub.common.utils.{FileUtils, ParamMapUtils, TimeUtils}
+import tech.sqlclub.common.time.TimeUtils
+import tech.sqlclub.common.utils.{FileUtils, ParamMapUtils}
 
 class CommonSuite extends FunSuite {
 
@@ -58,42 +58,6 @@ class CommonSuite extends FunSuite {
     println(TimeUtils.currentLocalDate)
     println(TimeUtils.currentTimestamp)
     println(TimeUtils.dateDiff("2020-01-02 12:00:00", "2020-01-02 13:00:00"))
-
-  }
-
-  test("regex") {
-    import tech.sqlclub.common.regex.RegexOp._
-
-    println("aaasdds" matching ".+" )
-
-    println("aaa" matching "a.*") //true
-
-    println("aaa" matching "b.*") //false
-
-    println("a123".matchGroup("(a)(\\d+)", 1).toList ) //List(a)
-
-    println("a123".matchGroup("(a)(\\d+)", 2).toList ) //List(123)
-
-    println("a1a1a" matchAll "a") //List(a, a, a)
-
-    println("a1a1a" matchFirst  "a") //Some(a)
-
-    println("13811111111" isMobileNumber ) //true
-
-    println(
-      """
-        |13811111111
-        |电话:
-        |18222222222
-      """.stripMargin extractMobileNumber ) //List(13811111111, 18222222222)
-
-    println("-1.0" isMumeric) //true
-    println(
-      """
-        |这是一段文本
-        |-1 and -3.0
-        |大于 100 +1000
-      """.stripMargin extractMumeric) // List(-1, -3.0, 100, +1000)
 
   }
 

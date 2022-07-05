@@ -15,18 +15,36 @@ class Reflection(classPath: ClassPath[_]) {
 
   lazy private val mirror = ru.runtimeMirror(classPath.classLoader)
 
-  def getOrSetFieldByName(name:String, value:Option[Any] = None) = {
-    val instance = classPath.instance
-    if (instance.isDefined) {
-      val instanceMirror = mirror.reflect(instance.get)
-      val term = instanceMirror.symbol.typeSignature.member(ru.TermName(name))
-      assert(term.isTerm, s"NoSuchFieldException: $name in class ${classPath.fullClassName}")
+  def getFieldNames: Array[String] = {
+    Class.forName(classPath.fullClassName)
+      .getDeclaredFields
+      .filterNot(_.isSynthetic)  // 排除合成字段
+      .map(_.getName)
+  }
 
-      val field = instanceMirror.reflectField(term.asTerm)
-      if (value.isDefined) {
-        field.set(value.get)
+  def getOrSetFieldByName(name:String, value:Option[Any] = None):Any = {
+    val instanceOption = classPath.instance
+    if (instanceOption.isDefined) {
+      val instance = instanceOption.get
+      val instanceMirror = mirror.reflect(instance)
+      val term = instanceMirror.symbol.typeSignature.member(ru.TermName(name))
+      // scala 完全面向对象，只能访问对象属性，没有静态的操作
+      if (term.isTerm) {
+        val field = instanceMirror.reflectField(term.asTerm)
+        if (value.isDefined) {
+          field.set(value.get)
+        } else {
+          return field.get
+        }
       } else {
-        field.get
+        // 为了继续访问java类静态属性，需要使用java的反射
+        try {
+          val field = instance.getClass.getDeclaredField(name)
+          field.setAccessible(true)
+          return field.get(instance)
+        } catch {
+          case e: NoSuchFieldException => throw new RuntimeException(s"NoSuchFieldException: $name in class ${classPath.fullClassName}")
+        }
       }
     } else {
       val field = try {
@@ -110,8 +128,18 @@ class Reflection(classPath: ClassPath[_]) {
   }
 
   def instance[T]:T = {
-    val constructor = classPath.clazz.getConstructor()
-    constructor.newInstance().asInstanceOf[T]
+    try {
+      Class.forName(classPath.fullClassName + "$")
+      // reflect scala object
+      val module = mirror.staticModule(classPath.fullClassName)
+      val obj = mirror.reflectModule(module)
+      obj.instance.asInstanceOf[T]
+    } catch {
+      case _:ClassNotFoundException =>
+        // reflect class
+        val constructor = classPath.clazz.getConstructor()
+        constructor.newInstance().asInstanceOf[T]
+    }
   }
 
   def createInstance[T](clazzs: Class[_]*)(objs: Any*):T = {
@@ -146,5 +174,10 @@ object Reflection {
   }
 
   def getAnnotation[A <: Annotation](clazz : Class[_], a:Class[A]):A = clazz.getAnnotation[A](a)
+
+  def allSubtypeClasses(clzz:Class[_], params: Any*) = {
+    val reflections = new Reflections(params.map(_.asInstanceOf[Object]):_*)
+    reflections.getSubTypesOf(clzz).asScala.toSet
+  }
 
 }

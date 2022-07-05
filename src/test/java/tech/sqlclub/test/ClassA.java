@@ -5,7 +5,7 @@ package tech.sqlclub.test;
  */
 
 public class ClassA {
-    public static String ss = "ss";
+    public static String ss = "ss111";
     public String s = "s";
     private String a;
     public ClassA(){
